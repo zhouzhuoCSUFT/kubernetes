@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emptydir-dep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: test-empty
+  template:
+    metadata:
+      labels:
+        name:  test-empty
+    spec:
+      volumes:
+        - name: mem
+          emptyDir:
+            medium: Memory
+            sizeLimit: 2Mi
+      containers:
+        - name: productor
+          image: busybox:1.28
+          volumeMounts:
+           - name: mem
+             mountPath: /data
+          args: ["/bin/sh","-c","while true; do echo $(date) >> /data/index.html; sleep 3;done"
+        - name: web
+          image: nginx
+          volumeMounts:
+            - name: mem
+              mountPath: /usr/share/nginx/html

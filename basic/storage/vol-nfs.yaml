@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vol-nfs-dep
+spec:
+  selector:
+    matchLabels:
+      name: vol-nfs-pod
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: vol-nfs-pod
+    spec:
+      volumes:
+        - name: nfs-vol
+          nfs:
+            path: /nfs/volumes/
+            server: k8s01
+      containers:
+        - name: web-server
+          image: nginx
+          volumeMounts:
+            - name: nfs-vol
+              mountPath: /usr/share/nginx/html
+

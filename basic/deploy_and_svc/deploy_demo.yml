@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deploy
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: mydeploy
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        name: mydeploy
+    spec:
+      volumes:
+        - nfs:
+            path: "/nfs/data/1"
+            server: 192.168.23.11
+          name: "nfs"
+      containers:
+        - name: myapp
+          image: httpd
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: "nfs"
+              mountPath: "/usr/local/apache2/htdocs/"
+          ports:
+            - containerPort: 80
+
+

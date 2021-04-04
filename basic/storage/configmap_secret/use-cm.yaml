@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: use-cm-se
+spec:
+  selector:
+    matchLabels:
+      name: usecm-app
+  template:
+    metadata:
+      labels:
+        name: usecm-app
+    spec:
+      volumes:
+        - name: cm-vol
+          configMap:
+            name: cm-test
+        - name: se-vol
+          secret:
+            secretName: se-test
+      containers:
+        - name: web-app
+          image: nginx
+          volumeMounts:
+            - name: cm-vol
+              mountPath: /usr/share/nginx/html
+            - name: se-vol
+              mountPath: /etc/mypass

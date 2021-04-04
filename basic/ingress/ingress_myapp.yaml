@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: myappv2-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    #nginx.ingress.kubernetes.io/server-snippet: rewrite ^/(.*)$ /$1 redirect;
+
+spec:
+  rules:
+#  - http:
+#      paths:
+#      - path: /appv2(/|$)(.*)
+#        backend:
+#          serviceName: myapp-svc
+#          servicePort: 8080
+  - http:
+      paths:
+      - path: /appv1
+        backend:
+          serviceName: appv1-svc
+          servicePort: 80
