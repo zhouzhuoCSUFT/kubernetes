@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+spec:
+  selector:
+    matchLabels:
+      name: client
+  template:
+    metadata:
+      labels:
+        name: client
+    spec:
+      containers:
+        - name: client
+          image: centos
+          command: ["/bin/sh","-c","sleep 600"]
