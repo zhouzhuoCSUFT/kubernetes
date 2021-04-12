@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: myapp-svc
+ labels:
+   app: nginx
+spec:
+ ports:
+ - port: 80
+   name: web
+ clusterIP: None
+ selector:
+   app: nginx
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: myapp-sts
+spec:
+  replicas: 3
+  serviceName: "myapp-svc"
+  selector:
+    matchLabels:
+      name: myapp
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+  template:
+    metadata:
+      labels:
+        name: myapp
+    spec:
+      containers:
+        - name: myweb
+          image: ikubernetes/myapp:v1
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+
