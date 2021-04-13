@@ -6,14 +6,25 @@
 #### 截至2021/4/4更新信息
 ```bash
 .
+├── dashboard
+│   └── admin-ui
+│       ├── create_kubeconfig.sh
+│       ├── dashboard.yaml
+│       ├── ui-rbac.yaml
+│       └── usertoken
 ├── deploy_and_svc
 │   ├── appv1-svc.yaml
 │   ├── deploy_demo.yml
 │   └── tomcat-deploy.yaml
+├── headless
+│   ├── client.yaml
+│   └── headlessdemo.yaml
 ├── ingress
 │   ├── ingress-controller.yaml
 │   ├── ingress_myapp.yaml
 │   └── ingress-nginx.yaml
+├── StatefulSet
+│   └── webdemo.yaml
 └── storage
     ├── configmap_secret
     │   ├── cm.yaml
